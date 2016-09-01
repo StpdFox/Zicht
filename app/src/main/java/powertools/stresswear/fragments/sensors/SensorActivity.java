@@ -515,7 +515,5 @@ public class SensorActivity extends AppCompatActivity {
             //
         }
     }
-    public void one(View view){
-        Log.d("Test","test");
-    }
+
 }

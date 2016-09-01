@@ -1,0 +1,105 @@
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <LinearLayout
+        android:id="@+id/main_content"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:animateLayoutChanges="true"
+        android:orientation="vertical">
+
+        <TextView
+            android:id="@+id/band2TxtStatus"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:padding="8dp" />
+
+        <Switch
+            android:id="@+id/log_switch"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:onClick="SwitchClick"
+            android:padding="8dp"
+            android:text="@string/log" />
+
+        <TextView
+            android:id="@+id/logStatus"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:padding="8dp"
+            android:text="@string/log_text" />
+
+        <Switch
+            android:id="@+id/backlog_switch"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:checked="false"
+            android:onClick="SwitchClick"
+            android:padding="8dp"
+            android:text="@string/backlog"
+            android:visibility="gone" />
+
+        <TextView
+            android:id="@+id/backlogStatus"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:padding="8dp"
+            android:visibility="gone" />
+
+        <include
+            android:id="@+id/rrInterval_card"
+            layout="@layout/sensor_cardview" />
+        <include
+            android:id="@+id/heartRate_card"
+            layout="@layout/sensor_cardview" />
+
+        <include
+            android:id="@+id/accelerometer_card"
+            layout="@layout/sensor_cardview" />
+
+        <include
+            android:id="@+id/altimeter_card"
+            layout="@layout/sensor_cardview" />
+
+        <include
+            android:id="@+id/ambientLight_card"
+            layout="@layout/sensor_cardview" />
+
+        <include
+            android:id="@+id/barometer_card"
+            layout="@layout/sensor_cardview" />
+
+        <include
+            android:id="@+id/calories_card"
+            layout="@layout/sensor_cardview" />
+
+        <include
+            android:id="@+id/contact_card"
+            layout="@layout/sensor_cardview" />
+
+        <include
+            android:id="@+id/distance_card"
+            layout="@layout/sensor_cardview" />
+
+        <include
+            android:id="@+id/gsr_card"
+            layout="@layout/sensor_cardview" />
+
+        <include
+            android:id="@+id/gyroscope_card"
+            layout="@layout/sensor_cardview" />
+        <include
+            android:id="@+id/pedometer_card"
+            layout="@layout/sensor_cardview" />
+
+
+        <include
+            android:id="@+id/skinTemperature_card"
+            layout="@layout/sensor_cardview" />
+
+        <include
+            android:id="@+id/uv_card"
+            layout="@layout/sensor_cardview" />
+    </LinearLayout>
+</ScrollView>

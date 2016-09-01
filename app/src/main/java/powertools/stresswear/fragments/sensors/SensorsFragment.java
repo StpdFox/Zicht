@@ -182,8 +182,9 @@ public class SensorsFragment extends Fragment {
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        heartRateCard = (CardView) view.findViewById(R.id.heartRate_card);
+
         rrIntervalCard = (CardView) view.findViewById(R.id.rrInterval_card);
+        heartRateCard = (CardView) view.findViewById(R.id.heartRate_card);
         reference = new WeakReference<Activity>(getActivity());
         band2TV = (TextView) view.findViewById(R.id.band2TxtStatus);
         accelerometerCard = (CardView) view.findViewById(R.id.accelerometer_card);

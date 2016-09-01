@@ -6,6 +6,7 @@ package powertools.stresswear.utils.band.listeners;
 
 
         import android.os.Environment;
+        import android.util.Log;
         import android.widget.TextView;
 
         import com.microsoft.band.BandException;
@@ -21,13 +22,24 @@ package powertools.stresswear.utils.band.listeners;
         import java.io.File;
         import java.io.FileWriter;
         import java.io.IOException;
+        import java.lang.reflect.Array;
+        import java.nio.ByteBuffer;
+        import java.nio.IntBuffer;
         import java.text.DateFormat;
+        import java.util.Arrays;
         import java.util.Date;
+        import java.util.UUID;
 
 public class HeartRateEventListener implements BandHeartRateEventListener {
+    private static final UUID tileId = UUID.fromString("cc0D508F-70A3-47D4-BBA3-812BADB1F8Aa");
     private SensorActivity sensor;
     private TextView textView;
     private boolean graph;
+    private int i=1;
+    private int[] AV= new int[10];
+    int sum = 0;
+    double average;
+
 
     public void setViews(TextView textView, boolean graph) {
         this.textView = textView;
@@ -37,18 +49,14 @@ public class HeartRateEventListener implements BandHeartRateEventListener {
     @Override
     public void onBandHeartRateChanged(final BandHeartRateEvent event) {
         if (event != null) {
+
             if (graph)
                 MainActivity.sActivity.runOnUiThread(new Runnable() {
                     @Override
                     public void run() {
                         SensorActivity.chartAdapter.add((float) event.getHeartRate());
                         if(event.getHeartRate() >=90) {
-                            try {MainActivity.client.getNotificationManager().vibrate(VibrationType.NOTIFICATION_ALARM).await();
-                            } catch (InterruptedException e) {
-// handle InterruptedException
-                            } catch (BandException e) {
-// handle BandException
-                            }
+
                         }
                     }
                 });
@@ -83,6 +91,66 @@ public class HeartRateEventListener implements BandHeartRateEventListener {
                     file.mkdirs();
                 }
             }
+            int HR = event.getHeartRate();
+            i=1;
+            shove(HR);
+            System.out.println("HR = " + HR+", AV = " + average);
+            average(AV);
+            compare(HR);
         }
     }
+    public void shove(int x){
+        int p = 1;
+
+        //Kijk of de array leeg is, zo ja vul hem met de huidige hartslag
+        if(AV[AV.length-1]==0){
+            for(int i = AV.length-1;i >=p;i--) {
+
+                AV[i] = x;
+            }
+        }
+        //Schuif alle gettallen 1 positie op en zet de huidige hartslag op positie 1
+        for(int i = AV.length-1;i >=p;i--) {
+
+            AV[i] = AV[i - 1];
+        }
+        AV[0] = x;
+
+    }
+    public void average(int[] data) {
+
+        sum=0;
+        for(int i=0; i < data.length; i++){
+            if(data[i]!=0) {
+                sum = sum + data[i];
+            }
+        }
+        average = (double)sum/data.length;
+
+    }
+
+    public void compare(final int Heartrate) {
+        final double x1 = average * 1.07;
+        final double x2 = average * 0.9;
+
+        if (Heartrate > x1) {
+            Log.d("", "Hartslag stijgt");
+            new Thread(new Runnable() {
+                public void run() {
+                    try {
+                        MainActivity.client.getNotificationManager().sendMessage(tileId, "Test", "Test", null,null);
+                        MainActivity.client.getNotificationManager().vibrate(VibrationType.NOTIFICATION_ONE_TONE).await();
+                    } catch (InterruptedException e) {
+                    } catch (BandException e) {
+
+                    }
+                }
+            }).start();
+        }
+        if (Heartrate < x2) {
+            Log.d("", "Hartslag daalt");
+        }
+
+    }
+
 }

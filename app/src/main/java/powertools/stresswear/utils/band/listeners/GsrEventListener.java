@@ -49,7 +49,7 @@ public class GsrEventListener implements BandGsrEventListener {
             if (MainActivity.sharedPreferences.getBoolean("log", false)) {
                 MainActivity.bandSensorData.setGsrData(event);
 
-                File file = new File(Environment.getExternalStorageDirectory().getAbsolutePath() + File.separator + "Zichtd" + File.separator + "GSR");
+                File file = new File(Environment.getExternalStorageDirectory().getAbsolutePath() + File.separator + "Zicht" + File.separator + "GSR");
                 if (file.exists() || file.isDirectory()) {
                     try {
                         Date date = new Date();
